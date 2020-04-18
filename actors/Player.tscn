@@ -22,7 +22,7 @@ animations = [ {
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 2 ) ],
+"frames": [ SubResource( 2 ), SubResource( 3 ) ],
 "loop": true,
 "name": "walk",
 "speed": 5.0
@@ -41,3 +41,7 @@ animation = "idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -1, 0 )
 shape = SubResource( 5 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 0, -107 )
+current = true

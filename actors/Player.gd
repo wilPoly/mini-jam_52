@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 export (int) var speed := 200
-export (int) var gravity := 1200
+export (int) var gravity := 500
 
 var direction := Vector2()
 
@@ -11,6 +11,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	direction.y = gravity
 	get_input()
 	animate_player(direction)
 	move_and_slide(direction, Vector2(0, -1))
