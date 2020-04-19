@@ -46,23 +46,27 @@ func horizontal() -> void:
 			
 func vertical() -> void:
 	if Input.is_action_pressed("arrow_up"):
-		velocity.y = -SPEED / 2.0 
+		velocity.y = -SPEED / 2.0
+		$AnimationPlayer.play("climb")
 	elif Input.is_action_pressed("arrow_down"):
 		velocity.y = SPEED * 0.75
+		$AnimationPlayer.play_backwards("climb")
 	else:
 			velocity.y = 0
+			$AnimationPlayer.stop()
 			
 func climb() -> void:
 	velocity.x = 0
 	vertical()
-	if Input.is_action_just_pressed("w"):
-		state = NORMAL
+#	if Input.is_action_just_pressed("w"):
+#		state = NORMAL
 
 
 func on_interactable_entered(obj_pos) -> void:
 	print("Ladder!")
 	state = CLIMB
 	global_position.x = obj_pos.x
+	$AnimationPlayer.play("climb_idle")
 
 
 func on_interactable_exited(obj_pos) -> void:
