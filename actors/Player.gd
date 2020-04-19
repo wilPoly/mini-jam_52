@@ -1,33 +1,70 @@
 extends KinematicBody2D
 
+enum { NORMAL, FALL, CLIMB }
 const SPEED := 200
 const GRAVITY := 800
 
 var velocity := Vector2()
+var state := NORMAL
 
 
 func _process(delta: float) -> void:
-	movement()
+	if Input.is_action_pressed("ui_cancel"):
+		get_tree().quit()
+		
+	match state:
+		NORMAL:
+			horizontal()
+		FALL:
+			pass
+		CLIMB:
+			climb()
+			if is_on_floor() and velocity.y > 0:
+				state = NORMAL
+
 
 func _physics_process(delta: float) -> void:
-	velocity.y += GRAVITY * delta
+	if state != CLIMB:
+		velocity.y += GRAVITY * delta
 	velocity = move_and_slide(velocity, Vector2.UP, true)
 
-func movement() -> void:
-	velocity.x = (Input.get_action_strength("arrow_right") - Input.get_action_strength("arrow_left")) * SPEED
+
+func horizontal() -> void:
 	if Input.is_action_pressed("arrow_right"):
-		$AnimatedSprite.flip_h = false
+		$Sprite.flip_h = false
 		velocity.x = SPEED
-	
 	elif Input.is_action_pressed("arrow_left"):
-		$AnimatedSprite.flip_h = true
+		$Sprite.flip_h = true
 		velocity.x = -SPEED
-	
 	else:
 		velocity.x = 0
-		
 	if is_on_floor():
 		if velocity.x == 0:
-			$AnimatedSprite.play("idle")
+			$AnimationPlayer.play("idle")
 		else:
-			$AnimatedSprite.play("walk")
+			$AnimationPlayer.play("walk")
+			
+func vertical() -> void:
+	if Input.is_action_pressed("arrow_up"):
+		velocity.y = -SPEED / 2.0 
+	elif Input.is_action_pressed("arrow_down"):
+		velocity.y = SPEED * 0.75
+	else:
+			velocity.y = 0
+			
+func climb() -> void:
+	velocity.x = 0
+	vertical()
+	if Input.is_action_just_pressed("w"):
+		state = NORMAL
+
+
+func on_interactable_entered(obj_pos) -> void:
+	print("Ladder!")
+	state = CLIMB
+	global_position.x = obj_pos.x
+
+
+func on_interactable_exited(obj_pos) -> void:
+	state = NORMAL
+	print("Ladder no more!")

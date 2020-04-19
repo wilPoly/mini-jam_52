@@ -1,16 +1,19 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://assets/graphics/spritesheet.png" type="Texture" id=1]
+[ext_resource path="res://interactables/BaseInteractable.tscn" type="PackedScene" id=1]
+[ext_resource path="res://interactables/Ladder.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 7.75125, 10 )
+extents = Vector2( 8, 73 )
 
-[node name="Ladder" type="Area2D"]
+[node name="Area2D" instance=ExtResource( 1 )]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource( 2 )
 
-[node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 1 )
-region_enabled = true
+[node name="Sprite" parent="." index="0"]
+position = Vector2( 0, -0.110184 )
 region_rect = Rect2( 278, 71, 21, 21 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" parent="." index="1"]
 shape = SubResource( 1 )
