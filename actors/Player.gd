@@ -4,8 +4,11 @@ enum { NORMAL, FALL, CLIMB }
 const SPEED := 200
 const GRAVITY := 800
 
+signal pushed
+
 var velocity := Vector2()
 var state := NORMAL
+var can_push_button := false
 
 
 func _process(delta: float) -> void:
@@ -15,12 +18,15 @@ func _process(delta: float) -> void:
 	match state:
 		NORMAL:
 			horizontal()
+			trigger()
 		FALL:
 			pass
 		CLIMB:
 			climb()
 			if is_on_floor() and velocity.y > 0:
 				state = NORMAL
+#		PUSHABLE:
+#			trigger()
 
 
 func _physics_process(delta: float) -> void:
@@ -62,6 +68,13 @@ func climb() -> void:
 #		state = NORMAL
 
 
+func trigger() -> void:
+	if can_push_button:
+		if Input.is_action_just_pressed("a"):
+			print("pushed!")
+			emit_signal("pushed")
+
+
 func on_interactable_entered(obj_pos) -> void:
 	print("Ladder!")
 	state = CLIMB
@@ -72,3 +85,11 @@ func on_interactable_entered(obj_pos) -> void:
 func on_interactable_exited(obj_pos) -> void:
 	state = NORMAL
 	print("Ladder no more!")
+	
+	
+func on_triggerable_entered(global_position) -> void:
+	print("Button!")
+	can_push_button = true
+
+func on_triggerable_exited(global_position) -> void:
+	pass

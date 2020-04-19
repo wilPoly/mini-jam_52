@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://levels/BaseLevel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://actors/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://interactables/Ladder.gd" type="Script" id=3]
 [ext_resource path="res://assets/graphics/spritesheet.png" type="Texture" id=4]
+[ext_resource path="res://triggerables/Button.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 73 )
@@ -126,9 +127,13 @@ texture = ExtResource( 4 )
 region_enabled = true
 region_rect = Rect2( 278, 71, 21, 21 )
 
-[node name="Player" parent="." index="2" instance=ExtResource( 2 )]
+[node name="Button" parent="." index="2" instance=ExtResource( 5 )]
+position = Vector2( 625, 336 )
+
+[node name="Player" parent="." index="3" instance=ExtResource( 2 )]
 position = Vector2( 86, 156 )
 [connection signal="body_entered" from="Ladders/Ladder2" to="Ladders/Ladder2" method="_on_body_entered"]
 [connection signal="body_exited" from="Ladders/Ladder2" to="Ladders/Ladder2" method="_on_body_exited"]
 [connection signal="body_entered" from="Ladders/Ladder3" to="Ladders/Ladder3" method="_on_body_entered"]
 [connection signal="body_exited" from="Ladders/Ladder3" to="Ladders/Ladder3" method="_on_body_exited"]
+[connection signal="pushed" from="Player" to="Button" method="_on_Player_pushed"]
