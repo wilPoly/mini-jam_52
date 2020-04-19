@@ -1,10 +1,10 @@
 extends Area2D
 
+
 var pushed = false
 
 
 func _on_body_entered(body: Node) -> void:
-#	trigger()
 	if body.has_method("on_triggerable_entered"):
 		body.on_triggerable_entered(global_position)
 
