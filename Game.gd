@@ -1,28 +1,14 @@
 extends Node2D
 
-const LVL_PATH = "res://levels/Level%d.tscn"
 
-#onready var root := get_tree().get_root()
-var root = null
-
-var lvl_num: int = 1
-
+#function to load maps
 
 func _ready() -> void:
-	root = get_tree().get_root()
-	call_deferred("_init")
+	var scene = preload("res://levels/Level01.tscn").instance()
+	add_child(scene)
+	add_to_group("trigger_listeners")
 	
 	
-func _init() -> void:
-	load_level(lvl_num)
+func on_trigger_entered(item) -> void:
+	print(item.name)
 	
-
-func load_level(num:int):
-#	var root = get_tree().root
-	if root.has_node("Level"):
-		$Level.queue_free()
-		
-	# TODO : check if lvl actually exists
-	var lvl = load(LVL_PATH % num).instance()
-	root.add_child(lvl)
-	return true

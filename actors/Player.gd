@@ -15,8 +15,6 @@ func _process(delta: float) -> void:
 	if Input.is_action_pressed("ui_cancel"):
 		get_tree().quit()
 		
-#	connect("pushed", elevator)
-		
 	match state:
 		NORMAL:
 			horizontal()
@@ -50,6 +48,7 @@ func horizontal() -> void:
 		else:
 			$AnimationPlayer.play("walk")
 			
+			
 func vertical() -> void:
 	if Input.is_action_pressed("arrow_up"):
 		velocity.y = -SPEED / 2.0
@@ -60,6 +59,7 @@ func vertical() -> void:
 	else:
 			velocity.y = 0
 			$AnimationPlayer.stop()
+			
 			
 func climb() -> void:
 	velocity.x = 0
@@ -85,10 +85,10 @@ func on_interactable_exited(obj_pos) -> void:
 	print("Ladder no more!")
 	
 	
-func on_triggerable_entered(global_position) -> void:
-	print("Actionable!")
-	actionable = true
+func on_triggerable_entered(obj_pos) -> void:
+		actionable = true
+		print("Actionable!")
 
-func on_triggerable_exited(global_position) -> void:
+func on_triggerable_exited(obj_pos) -> void:
 	actionable = false
 	print("not Actionable!")
