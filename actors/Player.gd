@@ -8,14 +8,12 @@ signal pushed
 
 var velocity := Vector2()
 var state := NORMAL
-var actionable := false
+var can_push_button := false
 
 
 func _process(delta: float) -> void:
 	if Input.is_action_pressed("ui_cancel"):
 		get_tree().quit()
-		
-#	connect("pushed", elevator)
 		
 	match state:
 		NORMAL:
@@ -27,6 +25,8 @@ func _process(delta: float) -> void:
 			climb()
 			if is_on_floor() and velocity.y > 0:
 				state = NORMAL
+#		PUSHABLE:
+#			trigger()
 
 
 func _physics_process(delta: float) -> void:
@@ -69,8 +69,10 @@ func climb() -> void:
 
 
 func trigger() -> void:
-	if actionable and Input.is_action_just_pressed("a"):
-		emit_signal("pushed")
+	if can_push_button:
+		if Input.is_action_just_pressed("a"):
+			print("pushed!")
+			emit_signal("pushed")
 
 
 func on_interactable_entered(obj_pos) -> void:
@@ -86,9 +88,8 @@ func on_interactable_exited(obj_pos) -> void:
 	
 	
 func on_triggerable_entered(global_position) -> void:
-	print("Actionable!")
-	actionable = true
+	print("Button!")
+	can_push_button = true
 
 func on_triggerable_exited(global_position) -> void:
-	actionable = false
-	print("not Actionable!")
+	pass
