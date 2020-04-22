@@ -1,6 +1,8 @@
 extends Area2D
 
-var triggered := false
+export (int) var trigger_tag_number
+
+var active := false
 
 func _ready() -> void:
 	connect("body_entered", self, "_on_actor_entered")
@@ -18,4 +20,5 @@ func _on_actor_exited(body: Node) -> void:
 
 func _on_triggered() -> void:
 	$AnimationPlayer.play("active")
-	triggered = true
+	active = true
+	print(self.name + " active")

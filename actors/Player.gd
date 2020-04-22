@@ -102,11 +102,3 @@ func on_triggerable_exited(item) -> void:
 	is_triggerable = false
 	print("Player cannot trigger " + item.name)
 	last_triggerable = triggerable
-
-#func on_triggerable_entered(obj_pos) -> void:
-#		triggerable = true
-#		print("triggerable!")
-#
-#func on_triggerable_exited(obj_pos) -> void:
-#	triggerable = false
-#	print("not triggerable!")

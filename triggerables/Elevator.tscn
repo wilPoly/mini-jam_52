@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://triggerables/BaseTrigger.tscn" type="PackedScene" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 9, 10 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 9, 9 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "active"
+
+[sub_resource type="Animation" id=4]
+resource_name = "inactive"
+
+[node name="Elevator" instance=ExtResource( 1 )]
+collision_layer = 4
+collision_mask = 2
+
+[node name="Sprite" parent="." index="0"]
+offset = Vector2( 0, -10 )
+region_rect = Rect2( 324, 623, 21, 21 )
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2( 0.0104089, -31.0104 )
+shape = SubResource( 1 )
+
+[node name="BaseElevator" type="KinematicBody2D" parent="." index="2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BaseElevator" index="0"]
+position = Vector2( 0.0104089, -12.0104 )
+shape = SubResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="3"]
+autoplay = "inactive"
+anims/active = SubResource( 3 )
+anims/inactive = SubResource( 4 )

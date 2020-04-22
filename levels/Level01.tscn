@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/graphics/spritesheet.png" type="Texture" id=1]
 [ext_resource path="res://interactables/Ladder.gd" type="Script" id=2]
 [ext_resource path="res://levels/BaseLevel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://triggerables/Button.tscn" type="PackedScene" id=4]
 [ext_resource path="res://actors/Player.tscn" type="PackedScene" id=5]
+[ext_resource path="res://triggerables/Elevator.tscn" type="PackedScene" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 73 )
@@ -16,7 +17,7 @@ tile_data = PoolIntArray( 18, 0, 65537, 19, 0, 65537, 20, 0, 65537, 21, 0, 65537
 
 [node name="Ladders" type="Node2D" parent="." index="1"]
 
-[node name="Ladder2" type="Area2D" parent="Ladders" index="0"]
+[node name="Ladder" type="Area2D" parent="Ladders" index="0"]
 position = Vector2( 494, 218 )
 collision_layer = 8
 collision_mask = 2
@@ -25,47 +26,47 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ladders/Ladder2" index="0"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ladders/Ladder" index="0"]
 position = Vector2( 0, 42 )
 shape = SubResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="Ladders/Ladder2" index="1"]
+[node name="Sprite" type="Sprite" parent="Ladders/Ladder" index="1"]
 position = Vector2( 0, -2.83122e-07 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 278, 71, 21, 21 )
 
-[node name="Sprite3" type="Sprite" parent="Ladders/Ladder2" index="2"]
+[node name="Sprite3" type="Sprite" parent="Ladders/Ladder" index="2"]
 position = Vector2( 0, -21 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 278, 71, 21, 21 )
 
-[node name="Sprite2" type="Sprite" parent="Ladders/Ladder2" index="3"]
+[node name="Sprite2" type="Sprite" parent="Ladders/Ladder" index="3"]
 position = Vector2( 0, 20.8898 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 278, 71, 21, 21 )
 
-[node name="Sprite4" type="Sprite" parent="Ladders/Ladder2" index="4"]
+[node name="Sprite4" type="Sprite" parent="Ladders/Ladder" index="4"]
 position = Vector2( 0, 41 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 278, 71, 21, 21 )
 
-[node name="Sprite5" type="Sprite" parent="Ladders/Ladder2" index="5"]
+[node name="Sprite5" type="Sprite" parent="Ladders/Ladder" index="5"]
 position = Vector2( 0, 62 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 278, 71, 21, 21 )
 
-[node name="Sprite6" type="Sprite" parent="Ladders/Ladder2" index="6"]
+[node name="Sprite6" type="Sprite" parent="Ladders/Ladder" index="6"]
 position = Vector2( 0, 83 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 278, 71, 21, 21 )
 
-[node name="Sprite7" type="Sprite" parent="Ladders/Ladder2" index="7"]
+[node name="Sprite7" type="Sprite" parent="Ladders/Ladder" index="7"]
 position = Vector2( 0, 104 )
 texture = ExtResource( 1 )
 region_enabled = true
@@ -78,23 +79,14 @@ position = Vector2( 190, 189 )
 
 [node name="Button2" parent="Buttons" index="1" instance=ExtResource( 4 )]
 position = Vector2( 272, 189 )
+trigger_tag_number = 1
 
 [node name="Player" parent="." index="3" instance=ExtResource( 5 )]
 position = Vector2( 86, 157 )
 
 [node name="Elevators" type="Node2D" parent="." index="4"]
 
-[node name="Elevator1" type="KinematicBody2D" parent="Elevators" index="0" groups=[
-"triggerable",
-]]
+[node name="Elevator" parent="Elevators" index="0" instance=ExtResource( 6 )]
 position = Vector2( 767, 357 )
-collision_layer = 9
-collision_mask = 3
-
-[node name="Sprite" type="Sprite" parent="Elevators/Elevator1" index="0"]
-texture = ExtResource( 1 )
-offset = Vector2( 0, -10 )
-region_enabled = true
-region_rect = Rect2( 324, 623, 21, 21 )
-[connection signal="body_entered" from="Ladders/Ladder2" to="Ladders/Ladder2" method="_on_body_entered"]
-[connection signal="body_exited" from="Ladders/Ladder2" to="Ladders/Ladder2" method="_on_body_exited"]
+[connection signal="body_entered" from="Ladders/Ladder" to="Ladders/Ladder" method="_on_body_entered"]
+[connection signal="body_exited" from="Ladders/Ladder" to="Ladders/Ladder" method="_on_body_exited"]
