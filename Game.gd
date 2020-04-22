@@ -6,9 +6,8 @@ extends Node2D
 func _ready() -> void:
 	var scene = preload("res://levels/Level01.tscn").instance()
 	add_child(scene)
-	add_to_group("trigger_listeners")
+#	add_to_group("trigger_listeners")
 	
 	
-func on_trigger_entered(item) -> void:
-	print(item.name)
-	
+#func on_trigger_entered(item) -> void:
+#	get_tree().call_group("actors", "on_actor_entered", item)

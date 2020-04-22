@@ -4,12 +4,16 @@ enum { NORMAL, FALL, CLIMB }
 const SPEED := 200
 const GRAVITY := 800
 
-signal pushed
+signal triggered
 
 var velocity := Vector2()
 var state := NORMAL
-var actionable := false
+var triggerable : Node
+var last_triggerable : Node
+var is_triggerable := false
 
+func _ready() -> void:
+	add_to_group("actors")
 
 func _process(delta: float) -> void:
 	if Input.is_action_pressed("ui_cancel"):
@@ -18,7 +22,7 @@ func _process(delta: float) -> void:
 	match state:
 		NORMAL:
 			horizontal()
-			trigger()
+			trigger(triggerable)
 		FALL:
 			pass
 		CLIMB:
@@ -68,9 +72,12 @@ func climb() -> void:
 #		state = NORMAL
 
 
-func trigger() -> void:
-	if actionable and Input.is_action_just_pressed("a"):
-		emit_signal("pushed")
+func trigger(item) -> void:
+	if is_triggerable:
+		if Input.is_action_just_pressed("a"):
+			connect("triggered", item, "_on_triggered")
+			emit_signal("triggered")
+			print("triggered " + item.name)
 
 
 func on_interactable_entered(obj_pos) -> void:
@@ -84,11 +91,22 @@ func on_interactable_exited(obj_pos) -> void:
 	state = NORMAL
 	print("Ladder no more!")
 	
-	
-func on_triggerable_entered(obj_pos) -> void:
-		actionable = true
-		print("Actionable!")
 
-func on_triggerable_exited(obj_pos) -> void:
-	actionable = false
-	print("not Actionable!")
+func  on_triggerable_entered(item) -> void:
+	is_triggerable = true
+	print("Player can trigger " + item.name)
+	triggerable = item
+
+
+func on_triggerable_exited(item) -> void:
+	is_triggerable = false
+	print("Player cannot trigger " + item.name)
+	last_triggerable = triggerable
+
+#func on_triggerable_entered(obj_pos) -> void:
+#		triggerable = true
+#		print("triggerable!")
+#
+#func on_triggerable_exited(obj_pos) -> void:
+#	triggerable = false
+#	print("not triggerable!")

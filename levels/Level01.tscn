@@ -1,11 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/graphics/spritesheet.png" type="Texture" id=1]
 [ext_resource path="res://interactables/Ladder.gd" type="Script" id=2]
 [ext_resource path="res://levels/BaseLevel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://triggerables/Button.tscn" type="PackedScene" id=4]
 [ext_resource path="res://actors/Player.tscn" type="PackedScene" id=5]
-[ext_resource path="res://triggerables/temp/Elevator.tscn" type="PackedScene" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 73 )
@@ -77,13 +76,25 @@ region_rect = Rect2( 278, 71, 21, 21 )
 [node name="Button" parent="Buttons" index="0" instance=ExtResource( 4 )]
 position = Vector2( 190, 189 )
 
+[node name="Button2" parent="Buttons" index="1" instance=ExtResource( 4 )]
+position = Vector2( 272, 189 )
+
 [node name="Player" parent="." index="3" instance=ExtResource( 5 )]
 position = Vector2( 86, 157 )
 
 [node name="Elevators" type="Node2D" parent="." index="4"]
 
-[node name="Elevator1" parent="Elevators" index="0" instance=ExtResource( 6 )]
+[node name="Elevator1" type="KinematicBody2D" parent="Elevators" index="0" groups=[
+"triggerable",
+]]
 position = Vector2( 767, 357 )
+collision_layer = 9
+collision_mask = 3
+
+[node name="Sprite" type="Sprite" parent="Elevators/Elevator1" index="0"]
+texture = ExtResource( 1 )
+offset = Vector2( 0, -10 )
+region_enabled = true
+region_rect = Rect2( 324, 623, 21, 21 )
 [connection signal="body_entered" from="Ladders/Ladder2" to="Ladders/Ladder2" method="_on_body_entered"]
 [connection signal="body_exited" from="Ladders/Ladder2" to="Ladders/Ladder2" method="_on_body_exited"]
-[connection signal="pushed" from="Player" to="Elevators/Elevator1" method="_on_Player_pushed"]
