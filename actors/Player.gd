@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 enum { NORMAL, FALL, CLIMB }
 const SPEED := 200
+const JUMP_SPEED := -200
 const GRAVITY := 800
 
 signal triggered
@@ -23,6 +24,7 @@ func _process(delta: float) -> void:
 		NORMAL:
 			horizontal()
 			trigger(triggerable)
+			jump()
 		FALL:
 			pass
 		CLIMB:
@@ -51,7 +53,12 @@ func horizontal() -> void:
 			$AnimationPlayer.play("idle")
 		else:
 			$AnimationPlayer.play("walk")
-			
+
+
+func jump() -> void:
+	if Input.is_action_just_pressed("arrow_up") and is_on_floor():
+		velocity.y = JUMP_SPEED
+
 			
 func vertical() -> void:
 	if Input.is_action_pressed("arrow_up"):
@@ -77,7 +84,7 @@ func trigger(item) -> void:
 		if Input.is_action_just_pressed("a"):
 			connect("triggered", item, "_on_triggered")
 			emit_signal("triggered")
-			print("triggered " + item.name)
+			print(self.name + " triggered " + item.name)
 
 
 func on_interactable_entered(obj_pos) -> void:
@@ -92,7 +99,7 @@ func on_interactable_exited(obj_pos) -> void:
 	print("Ladder no more!")
 	
 
-func  on_triggerable_entered(item) -> void:
+func on_triggerable_entered(item) -> void:
 	is_triggerable = true
 	print("Player can trigger " + item.name)
 	triggerable = item

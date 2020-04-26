@@ -1,12 +1,14 @@
 extends Area2D
 
-export (int) var trigger_tag_number
+export (int) var trigger_group_number
 
 var active := false
+
 
 func _ready() -> void:
 	connect("body_entered", self, "_on_actor_entered")
 	connect("body_exited", self, "_on_actor_exited")
+	
 	
 func _on_actor_entered(body: Node) -> void:
 	if body.has_method("on_triggerable_entered"):
@@ -22,3 +24,8 @@ func _on_triggered() -> void:
 	$AnimationPlayer.play("active")
 	active = true
 	print(self.name + " active")
+	get_tree().call_group("trigger_listeners", "on_trigger_activated", trigger_group_number)
+
+
+func activate_elevator() -> void:
+	pass
