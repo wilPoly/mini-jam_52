@@ -22,4 +22,4 @@ func load_next_level(next_level_path: String) -> void:
 	level_path = next_level_path
 	var next_level = load(level_path).instance()
 	$Level.queue_free()
-	add_child(next_level)
+	call_deferred("add_child", next_level)
