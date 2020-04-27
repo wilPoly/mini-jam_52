@@ -1,7 +1,7 @@
 extends Node2D
 
 
-#function to load maps
+onready var level_path : String
 
 func _ready() -> void:
 	var scene = preload("res://levels/Level01.tscn").instance()
@@ -18,6 +18,8 @@ func on_trigger_activated(group_number) -> void:
 	get_tree().call_group(number, "on_activated")
 
 
-func change_level(next_level) -> void:
+func load_next_level(next_level_path: String) -> void:
+	level_path = next_level_path
+	var next_level = load(level_path).instance()
 	$Level.queue_free()
 	add_child(next_level)
