@@ -25,7 +25,3 @@ func _on_triggered() -> void:
 	active = true
 	print(self.name + " active")
 	get_tree().call_group("trigger_listeners", "on_trigger_activated", trigger_group_number)
-
-
-func activate_elevator() -> void:
-	pass
